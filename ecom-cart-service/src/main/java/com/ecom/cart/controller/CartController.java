@@ -15,12 +15,17 @@ public class CartController {
 	CartService cartService;
 	
 	@GetMapping("/")
-	public Cart getCart(Cart cart) {
-		return cartService.getCart(cart);
+	public Cart getCart(Long cartID) {
+		return cartService.getCart(cartID);
+	}
+	
+	@GetMapping("/")
+	public Long getTEmpCartID() {
+		return cartService.generateTempCatID();
 	}
 
 	@PostMapping("/")
-	public Cart addtoCart(Cart cart) {
+	public Cart addProductToCart(Cart cart) {
 		return cartService.addtoCart(cart);
 	}
 	

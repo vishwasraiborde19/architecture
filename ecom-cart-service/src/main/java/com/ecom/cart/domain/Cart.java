@@ -1,7 +1,5 @@
 package com.ecom.cart.domain;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +13,9 @@ import lombok.NoArgsConstructor;
 public class Cart {
 	
 	private Long cartID;
-	private List<Product> products;
+	private ProductLine productline;
+	
+	
 	
 
 }

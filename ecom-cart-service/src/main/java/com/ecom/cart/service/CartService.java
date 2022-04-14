@@ -1,5 +1,7 @@
 package com.ecom.cart.service;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +14,13 @@ public class CartService {
 	@Autowired
 	CartRepository cartRepository;
 
-	public Cart getCart(Cart cart) {
+	public Cart getCart(Long cartID) {
 		
-		return cartRepository.getById(cart.getCartID());
+		return cartRepository.getById(cartID);
 	}
 
 	public Cart addtoCart(Cart cart) {
+		// getCardbyCartID
 		
 		return cartRepository.save(cart);
 	}
@@ -27,9 +30,9 @@ public class CartService {
 		return addtoCart(cart);
 	}
 	
-	public Double generateTempCatID() {
+	public Long generateTempCatID() {
 		
-		return Math.random();
+		return new Random().nextLong();
 	}
 	
 	

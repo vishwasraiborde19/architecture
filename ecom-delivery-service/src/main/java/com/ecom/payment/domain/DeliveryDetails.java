@@ -1,4 +1,4 @@
-package com.ecom.order.domain;
+package com.ecom.payment.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,20 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Orders {
-	
-	public enum OrderStatus {
-		NOT_STARTED, PLACED,CANCELLED, ERROR, COMPLETED
-	}
-	
+public class DeliveryDetails {
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderId;
-	private Long cardId;
-	private Long deliveryId;
-	private Long paymentId;
-	
-	private OrderStatus orderStatus;
-	
-
+	private Long id;
+	private String deliveryDate;
+	private String deliveryTimeSlot;
+	private String deliveryAddress;
 }

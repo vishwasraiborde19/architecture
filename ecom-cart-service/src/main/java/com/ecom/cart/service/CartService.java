@@ -44,7 +44,7 @@ public class CartService {
 		return cart;
 	}
 
-	private boolean isNewCart(List cartitems) {
+	private boolean isNewCart(List<Cart> cartitems) {
 
 		if (cartitems.isEmpty()) {
 			return Boolean.TRUE;

@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PaymentDetails {
 
-	enum paymentType {
+	 enum PaymentType {
 		DEBIT_CARD, CREDIT_CARD, BANK
 	}
 
-	enum paymentStatus {
+	 enum PaymentStatus {
 		SUCCESS, FAILED, PENDING
 	}
 
-	private paymentType paymentType;
-	private paymentStatus paymentStatus;
+	private PaymentType paymentType;
+	private PaymentStatus paymentStatus;
 	private boolean storePaymentDetails;
 
 }

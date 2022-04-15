@@ -1,32 +1,51 @@
 package com.ecom.cart.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.cart.domain.Cart;
 import com.ecom.cart.service.CartService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController("/carts")
+@Slf4j
 public class CartController {
 	
 	@Autowired
 	CartService cartService;
 	
 	@GetMapping("/")
-	public Cart getCart(Long cartID) {
+	public List<Cart> getAllCarts() {
+		return cartService.getAll();
+	}
+	
+	@GetMapping("/{cardID}")
+	public Cart getCart(@RequestParam Long cartID) {
 		return cartService.getCart(cartID);
 	}
 	
-	@GetMapping("/")
-	public Long getTEmpCartID() {
-		return cartService.generateTempCatID();
+	@GetMapping("/cartsession")
+	public String getTempCartID(HttpSession session) {
+		return session.getId();
 	}
 
 	@PostMapping("/")
-	public Cart addProductToCart(Cart cart) {
-		return cartService.addtoCart(cart);
+	public Cart addProductToCart(HttpSession session, @RequestBody Cart cart) {
+		
+		log.info("SessionId :-> " + session.getId());
+		log.info("Cart :-> " + cart.toString());
+		
+		//cart.setCustomerSessionId(session.getId());
+		return cartService.addorUpdateCart(cart);
 	}
 	
 	

@@ -9,9 +9,9 @@
 	</parent>
 
 	<groupId>com.ecom</groupId>
-	<artifactId>ecom-discovery-server</artifactId>
+	<artifactId>ms-ecom-discovery-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ecom-discovery-server</name>
+	<name>ms-ecom-discovery-server</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

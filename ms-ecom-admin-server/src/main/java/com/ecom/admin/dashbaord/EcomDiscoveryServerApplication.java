@@ -1,11 +1,14 @@
-package com.ecom.discovery;
+package com.ecom.admin.dashbaord;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 
 @SpringBootApplication
-@EnableEurekaServer
+@EnableAdminServer
+@EnableEurekaClient
 public class EcomDiscoveryServerApplication {
 
 	public static void main(String[] args) {

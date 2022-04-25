@@ -11,5 +11,8 @@ public class EcomApiGatewayyServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EcomApiGatewayyServerApplication.class, args);
 	}
+	
+
+	
 
 }

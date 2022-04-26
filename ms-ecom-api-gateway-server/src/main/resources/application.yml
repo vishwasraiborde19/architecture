@@ -11,26 +11,16 @@ spring:
 #              args:
 #                name: PRODUCT-SERVICE
 #                fallbackuri: forward:/productServiceFallBack
-                
-        - id: PAYMENT-SERVICE
-          uri: lb://PAYMENT-SERVICE
+        - id: PRODUCT-CAT-SERVICE
+          uri: lb://PRODUCT-CAT-SERVICE
           predicates:
-            - Path=/payments/**
-#           filters:
-#            - name: CircuitBreaker
-#              args:
-#                name: PAYMENT-SERVICE
-#                fallbackuri: forward:/paymentServiceFallBack
-                
-        - id: CART-SERVICE
-          uri: lb://CART-SERVICE
-          predicates:
-            - Path=/carts/**
+            - Path=/cats/**
 #          filters:
 #            - name: CircuitBreaker
 #              args:
-#                name: PAYMENT-SERVICE
-#                fallbackuri: forward:/paymentServiceFallBack
+#                name: PRODUCT-SERVICE
+#                fallbackuri: forward:/productServiceFallBack
+                
        
    
 

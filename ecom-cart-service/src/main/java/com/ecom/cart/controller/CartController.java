@@ -44,9 +44,8 @@ public class CartController {
 	@PostMapping("/")
 	public Cart addProductToCart(HttpSession session, @RequestBody Cart cart) {
 		
-		log.info("SessionId :-> " + session.getId());
-		log.info("Cart :-> " + cart.toString());
-		
+		//log.info("SessionId :-> " + session.getId());
+		log.info("Cart :-> " + cart.toString());	
 		//cart.setCustomerSessionId(session.getId());
 		return cartService.addorUpdateCart(cart);
 	}

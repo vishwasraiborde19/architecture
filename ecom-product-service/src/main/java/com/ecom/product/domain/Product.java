@@ -14,18 +14,23 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name="products")
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Long catID;
-	private String categoryName;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long productID;
+	private String productCode;
+	
+	private String productLine;
 	private String productName;
+	private String productScale;
+	private String productVendor;
 	private String productDescription;
-	private String productImageURL;
-	private Double productPrice;
+	private Integer quantityInStock;
+	private Double buyPrice;
+	private Double MSRP;
+	
+	
 }

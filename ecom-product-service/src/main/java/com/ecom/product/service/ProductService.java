@@ -17,14 +17,14 @@ public class ProductService {
 	@Autowired
 	ProductRepository productRepository;
 	
-	public List<Product> getProductsCategories() {
-		return productRepository.getProductsCategories();
-	}
-
-
-	public List<Product> getProductsByCategory(Long catID) {
-		return productRepository.getProductsByCategory(catID);
-	}
+//	public List<Product> getProductsCategories() {
+//		return productRepository.getProductsCategories();
+//	}
+//
+//
+//	public List<Product> getProductsByCategory(String productCode) {
+//		return productRepository.getProductsByCategory(productCode);
+//	}
 
 
 	public List<Product> productService() {
@@ -32,8 +32,12 @@ public class ProductService {
 	}
 
 
-	public Optional<Product> getProduct(Long productID) {
-		return productRepository.findById(productID);
+	public Optional<Product> getProduct(String productCode) {
+		return productRepository.findById(productCode);
+	}
+	
+	public Optional<List<Product>> getProductsByProductLine(String productLine) {
+		return productRepository.getProductsByProductLine(productLine);
 	}
 
 
@@ -43,9 +47,9 @@ public class ProductService {
 	}
 
 
-	public Product deleteProduct(Long productID) {
-		Product prd =new Product();
-		prd.setProductID(productID);
+	public Product deleteProduct(String productCode) {
+		Product prd = new Product();
+		prd.setProductCode(productCode);
 	    productRepository.delete(prd);
 	    return prd;
 	}

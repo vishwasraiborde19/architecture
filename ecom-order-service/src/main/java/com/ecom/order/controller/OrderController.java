@@ -26,8 +26,7 @@ public class OrderController {
 		
 		// getProducts from cart
 		// call cart service and get products and save in orderlines 
-		restTemplate.getForEntity("", null);
-		
+		restTemplate.getForEntity("", null);	
 		return orderService.placeOrder(order);
 	}
 	

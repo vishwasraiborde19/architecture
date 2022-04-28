@@ -36,8 +36,8 @@ public class ProductService {
 		return productRepository.findById(productCode);
 	}
 	
-	public Optional<List<Product>> getProductsByProductLine(String productLine) {
-		return productRepository.getProductsByProductLine(productLine);
+	public Optional<List<Product>> getProductsByCategory(Integer catId) {
+		return productRepository.getProductsByCategory(catId);
 	}
 
 

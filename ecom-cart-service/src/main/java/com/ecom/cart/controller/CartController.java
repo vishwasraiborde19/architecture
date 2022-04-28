@@ -41,13 +41,16 @@ public class CartController {
 		return session.getId();
 	}
 
-	@PostMapping("/")
+	@PostMapping("/addProduct")
 	public Cart addProductToCart(HttpSession session, @RequestBody Cart cart) {
-		
-		//log.info("SessionId :-> " + session.getId());
-		log.info("Cart :-> " + cart.toString());	
-		//cart.setCustomerSessionId(session.getId());
+		log.info("Cart :-> " + cart.toString());
+		cart.setSessionId(session.getId());		
 		return cartService.addorUpdateCart(cart);
+	}
+	
+	@PostMapping("/removeProduct/{productId}")
+	public String deleteProductToCart(HttpSession session, @PathVariable Integer productId) {
+		return cartService.removeProduct(session.getId(), productId);
 	}
 	
 	

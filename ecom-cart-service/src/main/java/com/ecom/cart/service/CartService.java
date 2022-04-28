@@ -2,10 +2,11 @@ package com.ecom.cart.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ecom.cart.domain.Cart;
 import com.ecom.cart.repository.CartRepository;
@@ -26,39 +27,54 @@ public class CartService {
 
 		return cartRepository.getById(cartID);
 	}
-
+	
 	public Cart addorUpdateCart(Cart cart) {
-		List<Cart> cartsitems = cartRepository.getCurrentCartforSession(cart.getCustomerSessionId());
 		
-		if (isNewCart(cartsitems)) {
+		// up
+		if(isNewCart(cart).isPresent()) {
+			Cart currentCustomerCart = cartRepository.save(cart);	
 			
-			// this is bad very bad but will roll with hack to save time
-			cart.setCartId(getNeWCartID());
-			cartRepository.save(cart);
+			System.out.println("Exs Cart ---> " + currentCustomerCart.toString());
 
-		} else {
-			Long cartId= cartsitems.stream().findFirst().get().getCartId();
-			cart.setCartId(cartId);
-			cartRepository.save(cart);
+			return currentCustomerCart;
+		}else {
+			Cart cartd = new Cart();
+			cartd.setProductId(cart.getProductId());
+			cartd.setQty(cart.getQty());
+			cartd.setSessionId(cart.getSessionId());
+			cartd.setCartAggregateId(getNewCartAggID());
+			System.out.println("New Cart ---> " + cartd.toString());
+			Cart currentCustomerCart = cartRepository.save(cartd);
+
+			return currentCustomerCart;
 		}
-		return cart;
+
 	}
 
-	private boolean isNewCart(List<Cart> cartitems) {
-
-		if (cartitems.isEmpty()) {
-			return Boolean.TRUE;
-		} else {
-			return Boolean.FALSE;
-		}
+	@Transactional()
+	public String removeProduct(String sessionid, Integer productId) {
+		System.out.println("Rem Products ---> " + sessionid+ " : "+productId);
+		
+		cartRepository.removeProductFromCart(sessionid, productId);
+		return "product removed from cart";
 	}
 	
-	private Long getNeWCartID() {
-		Optional<Long> cartId = cartRepository.getNeWCartID();
-		if(cartId.isPresent()) {
-			return cartId.get() + 100;
+	
+	private Optional<Cart> isNewCart(Cart cart) {
+		
+		 Optional<Cart> response = cartRepository.isNewCart(cart.getSessionId());
+		
+		return (response.isPresent()? response : response.empty());
+		
+	}
+
+
+	private Long getNewCartAggID() {
+		
+		if(cartRepository.getNeCartAggID().isPresent()) {
+			return cartRepository.getNeCartAggID().get();
 		}else {
-			return 100l;
+		return 1000l;
 		}
 	}
 

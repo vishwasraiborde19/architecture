@@ -2,7 +2,6 @@ package com.ecom.cart.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ecom.cart.domain.Cart;
 import com.ecom.cart.repository.CartRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class CartService {
 
@@ -18,13 +20,11 @@ public class CartService {
 	CartRepository cartRepository;
 
 	public List<Cart> getAll() {
-
 		return cartRepository.findAll();
 
 	}
 
 	public Cart getCart(Long cartID) {
-
 		return cartRepository.getById(cartID);
 	}
 	
@@ -32,9 +32,8 @@ public class CartService {
 		
 		// up
 		if(isNewCart(cart).isPresent()) {
-			Cart currentCustomerCart = cartRepository.save(cart);	
-			
-			System.out.println("Exs Cart ---> " + currentCustomerCart.toString());
+			Cart currentCustomerCart = cartRepository.save(cart);			
+			log.info("Exs Cart ---> " + currentCustomerCart.toString());
 
 			return currentCustomerCart;
 		}else {
@@ -43,7 +42,7 @@ public class CartService {
 			cartd.setQty(cart.getQty());
 			cartd.setSessionId(cart.getSessionId());
 			cartd.setCartAggregateId(getNewCartAggID());
-			System.out.println("New Cart ---> " + cartd.toString());
+			
 			Cart currentCustomerCart = cartRepository.save(cartd);
 
 			return currentCustomerCart;
@@ -53,7 +52,7 @@ public class CartService {
 
 	@Transactional()
 	public String removeProduct(String sessionid, Integer productId) {
-		System.out.println("Rem Products ---> " + sessionid+ " : "+productId);
+		log.info("Rem Products ---> " + sessionid+ " : "+productId);
 		
 		cartRepository.removeProductFromCart(sessionid, productId);
 		return "product removed from cart";
@@ -61,7 +60,6 @@ public class CartService {
 	
 	
 	private Optional<Cart> isNewCart(Cart cart) {
-		
 		 Optional<Cart> response = cartRepository.isNewCart(cart.getSessionId());
 		
 		return (response.isPresent()? response : response.empty());
@@ -69,8 +67,7 @@ public class CartService {
 	}
 
 
-	private Long getNewCartAggID() {
-		
+	private Long getNewCartAggID() {	
 		if(cartRepository.getNeCartAggID().isPresent()) {
 			return cartRepository.getNeCartAggID().get();
 		}else {

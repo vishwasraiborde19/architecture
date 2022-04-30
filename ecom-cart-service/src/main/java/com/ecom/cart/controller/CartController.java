@@ -10,49 +10,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.cart.domain.Cart;
-import com.ecom.cart.service.CartService;
+import com.ecom.cart.service.GuestUserCartService;
+import com.ecom.cart.vo.CartVO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RestController()
-@RequestMapping("/carts")
+@RequestMapping("/carts/guest/")
 @Slf4j
 public class CartController {
-	
+
 	@Autowired
-	CartService cartService;
-	
-	@GetMapping("/")
-	public List<Cart> getAllCarts() {
-		return cartService.getAll();
-	}
-	
-	@GetMapping("/{id}")
-	public Cart getCart(@PathVariable Long id) {
-		return cartService.getCart(id);
-	}
+	private GuestUserCartService cartService;
+
 	
 	@GetMapping("/cartsession")
 	public String getTempCartID(HttpSession session) {
 		return session.getId();
 	}
+	
+	@GetMapping("/{cartId}")
+	public List<CartVO> getCustomerCart(@PathVariable String cartId) {
+		return cartService.getCustomerCart(cartId);
+	}
 
 	@PostMapping("/addProduct")
-	public Cart addProductToCart(HttpSession session, @RequestBody Cart cart) {
-		log.info("Cart :-> " + cart.toString());
-		cart.setSessionId(session.getId());		
-		return cartService.addorUpdateCart(cart);
+	public CartVO addProductToCart(HttpSession session, @RequestBody CartVO cart) {
+
+		cart.setSessionId(session.getId());
+		return cartService.addorUpdateCartV2(cart);
 	}
-	
+
+	@PostMapping("/checkout")
+	public List<CartVO> checkOutCart(HttpSession session, @RequestBody CartVO cart) {
+
+		cart.setSessionId(session.getId());
+		return cartService.checkout(cart);
+	}
+
 	@PostMapping("/removeProduct/{productId}")
-	public String deleteProductToCart(HttpSession session, @PathVariable Integer productId) {
+	public Cart deleteProductFromCart(HttpSession session, @PathVariable Integer productId) {
 		return cartService.removeProduct(session.getId(), productId);
 	}
-	
-	
 
 }

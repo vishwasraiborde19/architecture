@@ -1,5 +1,7 @@
 package com.ecom.order.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.ecom.order.domain.Orders;
 import com.ecom.order.service.OrderService;
+import com.ecom.order.vo.CartVO;
+import com.ecom.order.vo.OrdersVO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @RestController()
 @RequestMapping("/orders")
@@ -19,20 +25,33 @@ public class OrderController {
 	OrderService orderService;
 	
 	@Autowired
-	RestTemplate restTemplate;
+	RestTemplate cartServiceClient;
 	
 	@PostMapping("/")
-	public Orders placeOrder(@RequestBody Orders order) {
+	public OrdersVO placeOrder(@RequestBody OrdersVO order) {	
 		
-		// getProducts from cart
-		// call cart service and get products and save in orderlines 
-		restTemplate.getForEntity("", null);	
-		return orderService.placeOrder(order);
+		//getCart Details
+		List<CartVO> cartDetails = cartServiceClient.getForObject("http://CART-SERVICE/carts/guest/" + order.getCartID(), List.class);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		cartDetails = mapper.convertValue(cartDetails, new TypeReference<List<CartVO>>() { });
+		
+	    System.out.println(cartDetails.toString());
+		
+		//get paymentDetails
+		// List<CartVO> cartDetails = cartServiceClient.getForObject("CART-SERVICE", List.class);	
+		
+		//getDeliveryDetails
+		// List<CartVO> cartDetails = cartServiceClient.getForObject("CART-SERVICE", List.class);	
+		
+		return orderService.placeOrder(order,cartDetails);
 	}
 	
-	@DeleteMapping
-	public Orders cancelOrder(@RequestBody Orders order) {
-		return orderService.cancelOrder(order);
-	}
+
+	
+//	@DeleteMapping
+//	public Orders cancelOrder(@RequestBody Orders order) {
+//		return orderService.cancelOrder(order);
+//	}
 
 }

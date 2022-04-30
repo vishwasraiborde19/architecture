@@ -15,17 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductService {
 	
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 	
-//	public List<Product> getProductsCategories() {
-//		return productRepository.getProductsCategories();
-//	}
-//
-//
-//	public List<Product> getProductsByCategory(String productCode) {
-//		return productRepository.getProductsByCategory(productCode);
-//	}
-
 
 	public List<Product> productService() {
 		return productRepository.findAll();

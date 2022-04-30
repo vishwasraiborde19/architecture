@@ -1,11 +1,10 @@
-package com.ecom.order.domain;
+package com.ecom.order.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.ecom.order.domain.OrderLines;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,11 +14,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="Orders")
-public class Orders {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrdersVO {
+
+
 	private Integer orderNumber;
 
 	private Date orderDate;
@@ -33,7 +31,7 @@ public class Orders {
 	private Integer deliveryID;
 	private Integer paymentID;
 
-//	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//	List<OrderLines> orderlines = new ArrayList<>();
+
+	List<OrderLinesVO> orderlines;
 
 }

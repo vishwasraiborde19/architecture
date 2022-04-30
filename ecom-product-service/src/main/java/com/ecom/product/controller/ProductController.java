@@ -19,7 +19,7 @@ import com.ecom.product.service.ProductService;
 public class ProductController {
 	
 	@Autowired
-	ProductService productService;
+	private ProductService productService;
 		
 	@GetMapping
 	public List<Product> getProducts() {

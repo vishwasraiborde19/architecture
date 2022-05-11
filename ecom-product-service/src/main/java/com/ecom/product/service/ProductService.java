@@ -2,7 +2,6 @@ package com.ecom.product.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -25,7 +24,7 @@ public class ProductService {
 	public List<ProductVO> productService() {
 
 		return productRepository.findAll().stream().map(
-		        this::copyProperties).collect(Collectors.toList());
+		        this::getValueObject).collect(Collectors.toList());
 
 	}
 
@@ -35,13 +34,13 @@ public class ProductService {
 
 	public List<ProductVO> getProductsByCategory(Integer catId) {
 		return productRepository.getProductsByCategory(catId).stream().map(
-		        this::copyProperties).collect(Collectors.toList());
+		        this::getValueObject).collect(Collectors.toList());
 	}
 
-	public ProductVO addProduct(Product product) {
+	public ProductVO addProduct(ProductVO product) {
 		log.info(product.toString());
-		Product productDomain = productRepository.save(product);
-		return copyProperties(productDomain);
+		Product productDomain = productRepository.save(getDomainObject(product));
+		return getValueObject(productDomain);
 	}
 
 	public Product deleteProduct(String productCode) {
@@ -51,10 +50,15 @@ public class ProductService {
 		return prd;
 	}
 
-	private ProductVO copyProperties(Product domainObject) {
+	private ProductVO getValueObject(Product domainObject) {
 		ProductVO valueObject = new ProductVO();
 		BeanUtils.copyProperties(domainObject, valueObject);
 		return valueObject;
+	}
+	private Product getDomainObject(ProductVO valueObject) {
+		Product domian = new Product();
+		BeanUtils.copyProperties(valueObject,domian);
+		return domian;
 	}
 
 }

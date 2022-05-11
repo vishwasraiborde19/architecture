@@ -2,47 +2,59 @@ package com.ecom.product.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ecom.product.domain.Product;
 import com.ecom.product.repository.ProductRepository;
+import com.ecom.product.vo.ProductVO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class ProductService {
-	
+
 	@Autowired
 	private ProductRepository productRepository;
-	
 
-	public List<Product> productService() {
-		return productRepository.findAll();
+	public List<ProductVO> productService() {
+
+		return productRepository.findAll().stream().map(
+		        this::copyProperties).collect(Collectors.toList());
+
 	}
-
 
 	public Optional<Product> getProduct(String productCode) {
 		return productRepository.findById(productCode);
 	}
-	
-	public Optional<List<Product>> getProductsByCategory(Integer catId) {
-		return productRepository.getProductsByCategory(catId);
+
+	public List<ProductVO> getProductsByCategory(Integer catId) {
+		return productRepository.getProductsByCategory(catId).stream().map(
+		        this::copyProperties).collect(Collectors.toList());
 	}
 
-
-	public Product addProduct(Product product) {
+	public ProductVO addProduct(Product product) {
 		log.info(product.toString());
-		return productRepository.save(product);
+		Product productDomain = productRepository.save(product);
+		return copyProperties(productDomain);
 	}
-
 
 	public Product deleteProduct(String productCode) {
 		Product prd = new Product();
 		prd.setProductCode(productCode);
-	    productRepository.delete(prd);
-	    return prd;
+		productRepository.delete(prd);
+		return prd;
+	}
+
+	private ProductVO copyProperties(Product domainObject) {
+		ProductVO valueObject = new ProductVO();
+		BeanUtils.copyProperties(domainObject, valueObject);
+		return valueObject;
 	}
 
 }

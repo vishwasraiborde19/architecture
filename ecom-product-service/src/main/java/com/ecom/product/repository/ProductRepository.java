@@ -13,6 +13,6 @@ import com.ecom.product.domain.Product;
 public interface ProductRepository  extends JpaRepository<Product, String>{
 	
 	@Query(value = "select * from products where catId=?", nativeQuery=true)
-	public Optional<List<Product>> getProductsByCategory(Integer catId);
+	public List<Product> getProductsByCategory(Integer catId);
 	
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.product.domain.Product;
 import com.ecom.product.service.ProductService;
+import com.ecom.product.vo.ProductVO;
 
 @RestController()
 @RequestMapping("/products")
@@ -22,17 +23,17 @@ public class ProductController {
 	private ProductService productService;
 		
 	@GetMapping
-	public List<Product> getProducts() {
+	public List<ProductVO> getProducts() {
 		return productService.productService();
 	}
 	
 	@GetMapping("/{catId}")
-	public Optional<List<Product>> getProductsByCategory(@PathVariable Integer catId) {
+	public List<ProductVO> getProductsByCategory(@PathVariable Integer catId) {
 		return productService.getProductsByCategory(catId);
 	}
 	
 	@PostMapping("/")
-	public Product addProduct(@RequestBody Product product) {
+	public ProductVO addProduct(@RequestBody Product product) {
 		return productService.addProduct(product);
 	}
 

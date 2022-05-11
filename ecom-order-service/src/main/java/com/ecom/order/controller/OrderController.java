@@ -30,6 +30,7 @@ public class OrderController {
 	public OrdersVO placeOrder(@RequestBody OrdersVO order) {
 
 		// getCart Details
+		//TODO externalise the urls and pull it via environment configuration 
 		List<CartVO> cartDetails = cartServiceClient
 		        .getForObject("http://CART-SERVICE/carts/" + order.getCartID() + "/cart", List.class);
 

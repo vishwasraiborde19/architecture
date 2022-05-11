@@ -1,10 +1,7 @@
 package com.ecom.order.vo;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.ecom.order.domain.OrderLines;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

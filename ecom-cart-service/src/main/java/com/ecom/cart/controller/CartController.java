@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,12 +28,11 @@ public class CartController {
 	@Autowired
 	private GuestUserCartService cartService;
 
-	
 	@GetMapping("/cartsession")
 	public String getTempCartID(HttpSession session) {
 		return session.getId();
 	}
-	
+
 	@GetMapping("/{cartId}/cart")
 	public List<CartVO> getCustomerCart(@PathVariable String cartId) {
 		return cartService.getCustomerCart(cartId);
@@ -42,11 +42,13 @@ public class CartController {
 	public CartVO addToCart(HttpSession session, @RequestBody CartVO cart) {
 		cart.setSessionId(session.getId());
 		return cartService.addorUpdateCartV2(cart);
+
 	}
-	
+
 	@PutMapping("/")
-	public Cart updateCart(HttpSession session, @PathVariable Integer productId) {
+	public CartVO updateCart(HttpSession session, @PathVariable Integer productId) {
 		return cartService.removeProduct(session.getId(), productId);
+		
 	}
 
 	@PostMapping("/checkout")
@@ -54,7 +56,5 @@ public class CartController {
 		cart.setSessionId(session.getId());
 		return cartService.checkout(cart);
 	}
-
-	
 
 }

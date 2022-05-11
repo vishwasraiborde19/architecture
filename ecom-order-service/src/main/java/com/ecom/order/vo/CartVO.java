@@ -3,8 +3,6 @@ package com.ecom.order.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.NotEmpty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

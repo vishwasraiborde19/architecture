@@ -3,6 +3,7 @@ package com.ecom.cart.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,11 @@ public class GuestUserCartService {
 	private CartRepository cartRepository;
 
 	public List<CartVO> getCustomerCart(String cartId) {
-		List<Cart> carts = cartRepository.getCustomerCart(cartId);
-		List<CartVO> cartsVO = new ArrayList<CartVO>();
-		
-		carts.stream().forEach( cart -> {
+		return cartRepository.getCustomerCart(cartId).stream().map( cart -> {
 			CartVO vo = new CartVO();
 			BeanUtils.copyProperties(cart, vo);
-			cartsVO.add(vo);
-		});
-		
-		return cartsVO;
-
+			return vo;
+		}).collect(Collectors.toList());
 	}
 
 	// for this example using server side session managed cart other alternative
@@ -47,7 +42,8 @@ public class GuestUserCartService {
 		//Predicate ispresent = 
 		//customerCarts.stream().filter(x -> isEm)
 
-		// TODO is there way in java 11 to do this efficiently
+		// TODO is there way in java 11 to do this efficiently 
+		// map move code to function 
 		if (CollectionUtils.isEmpty(customerCarts)) {
 
 			log.info("Creating new cart ");
@@ -129,7 +125,9 @@ public class GuestUserCartService {
 		// cart operations
 		return (cartRepository.getNeCartAggID() != null ? cartRepository.getNeCartAggID() + 1 : 1000);
 	}
-
+	
+	
+	// move to static constants
 	private String resolveUserStatus() {
 
 		return "GUEST_USER";

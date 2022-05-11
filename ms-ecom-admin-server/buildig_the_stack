@@ -1,0 +1,11 @@
+opeAPI 3 connecting a swagger inteface for dispread ms 
+	https://springdoc.org/faq.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy
+	
+Spring cloud gateway
+	https://cloud.spring.io/spring-cloud-gateway/reference/html/
+	
+	
+	
+	
+	tools
+	https://minikube.sigs.k8s.io/docs/start/
